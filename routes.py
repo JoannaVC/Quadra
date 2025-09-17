@@ -1,0 +1,1 @@
+# se guardan todas las rutas para flask

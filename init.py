@@ -1,0 +1,1 @@
+# inicializa Flask, DB 

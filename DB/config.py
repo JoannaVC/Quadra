@@ -1,0 +1,1 @@
+# clase configuracion, conecta a la DB en supabase mediante SQLALCHEMY URI      
