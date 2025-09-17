@@ -1,1 +1,18 @@
 <!-- inicio de sesión para usuario que ya cuenta con cuenta -->
+
+<!--PRUEBA_DB-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Usuarios</title>
+</head>
+<body>
+    <h1>Usuarios</h1>
+    <ul>
+        {% for usuario in usuarios %}
+        <li>{{ usuario.nombre }} - {{ usuario.email }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
