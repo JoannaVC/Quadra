@@ -1,1 +1,54 @@
 <!-- registro para nuevo usuario -->
+{% extends "auth/auth_base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block form %}
+<!-- Bloques de inputs -->
+<div class="flex flex-col gap-4">
+
+  <!-- Bloque 1 -->
+  <div class="flex flex-col gap-2">
+    <label class="font-[Inter] text-sm text-white">Nombre de usuario</label>
+    <input type="text" placeholder="Ingresa tu usuario"
+      class="font-[Inter] px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#F5BB00] bg-[#FCFCF7]">
+  </div>
+
+  <!-- Bloque 2 -->
+  <div class="flex flex-col gap-2">
+    <label class="font-[Inter] text-sm text-white">Correo electrónico</label>
+    <input type="email" placeholder="ejemplo@correo.com"
+      class="font-[Inter] px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#F5BB00] bg-[#FCFCF7]">
+  </div>
+
+  <!-- Bloque 3 -->
+  <div class="flex flex-col gap-2">
+    <label class="font-[Inter] text-sm text-white">Contraseña</label>
+    <input type="password" placeholder="********"
+      class="font-[Inter] px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#F5BB00] bg-[#FCFCF7]">
+  </div>
+
+</div>
+
+<!-- Botón principal -->
+<button class="w-full py-3 bg-white text-black font-[Inter] font-bold rounded-lg hover:bg-gray-200 transition">
+  Crear cuenta
+</button>
+
+</div>
+
+<!-- Acciones secundarias -->
+<div class="flex flex-col items-center gap-6 w-full mt-6">
+<div class="flex items-center w-full gap-4">
+  <hr class="flex-1 border-t border-[#F5BB00]">
+  <span class="text-[#F5BB00] font-[Inter] text-sm">¿Ya tienes cuenta?</span>
+  <hr class="flex-1 border-t border-[#F5BB00]">
+</div>
+<button onclick="window.location.href='/login'"
+        class="w-full py-3 bg-[#F5BB00] text-white font-bold font-[Inter] rounded-lg hover:bg-[#D7AF31] transition">
+  Log In
+</button>
+</div>
+
+</div>
+{% endblock %}

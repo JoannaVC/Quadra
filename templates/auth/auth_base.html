@@ -1,1 +1,23 @@
-<!-- base template -->
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="w-full flex flex-col items-center px-8 justify-start mt-18">
+
+  <!-- Contenedor principal -->
+  <div class="w-full max-w-md flex flex-col gap-6">
+
+    <!-- Título (editable desde las plantillas hijas) -->
+    <h2 class="text-3xl font-[Changa_One] text-black">
+      {% block title %}{% endblock %}
+    </h2>
+
+    <!-- Cuadro del formulario -->
+    <div class="bg-[#D76A03] rounded-xl shadow-lg p-8 flex flex-col gap-12 mt-4 py-10">
+      
+      <!-- Aquí van los inputs y botones específicos de cada página -->
+      {% block form %}{% endblock %}
+
+    </div>
+  </div>
+</div>
+{% endblock %}
