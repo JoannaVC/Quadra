@@ -1,1 +1,44 @@
 <!-- página principal -->
+ {% extends "main/main_base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Contenido principal -->
+    <main class="flex-1 flex flex-col gap-8 p-6 font-[Changa_One] text-[#EC9F05]">
+
+        <!-- Sección: Cerca de ti -->
+        <section>
+            <h2 class="text-2xl mb-4">Cerca de ti</h2>
+            <div class="flex overflow-x-auto gap-4 scrollbar-hide">
+                <img src="{{ url_for('static', filename='images/img1.png') }}" class="h-40 rounded-lg flex-shrink-0">
+                <img src="{{ url_for('static', filename='images/img2.png') }}" class="h-40 rounded-lg flex-shrink-0">
+                <img src="{{ url_for('static', filename='images/img3.png') }}" class="h-40 rounded-lg flex-shrink-0">
+                <!-- Más imágenes -->
+            </div>
+        </section>
+
+        <!-- Sección: Los mejores -->
+        <section>
+            <h2 class="text-2xl mb-4">Los mejores</h2>
+            <div class="flex overflow-x-auto gap-4 scrollbar-hide">
+                <img src="{{ url_for('static', filename='images/img4.png') }}" class="h-40 rounded-lg flex-shrink-0">
+                <img src="{{ url_for('static', filename='images/img5.png') }}" class="h-40 rounded-lg flex-shrink-0">
+                <img src="{{ url_for('static', filename='images/img6.png') }}" class="h-40 rounded-lg flex-shrink-0">
+            </div>
+        </section>
+
+        <!-- Sección: Vistos recientemente -->
+        <section>
+            <h2 class="text-2xl mb-4">Vistos recientemente</h2>
+            <div class="flex overflow-x-auto gap-4 scrollbar-hide">
+                <img src="{{ url_for('static', filename='images/img7.png') }}" class="h-40 rounded-lg flex-shrink-0">
+                <img src="{{ url_for('static', filename='images/img4.png') }}" class="h-40 rounded-lg flex-shrink-0">
+                <img src="{{ url_for('static', filename='images/img3.png') }}" class="h-40 rounded-lg flex-shrink-0">
+            </div>
+        </section>
+
+    </main>
+
+</div>
+{% endblock %}

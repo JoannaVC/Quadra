@@ -1,1 +1,42 @@
 <!-- base con el panel de navegacion -->
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<div class="w-full bg-[#FCFCF7] flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="w-full flex items-center justify-between bg-white px-6 py-4 shadow-md">
+        <!-- Buscador -->
+        <div class="flex items-center gap-2 flex-1">
+            <input type="text" placeholder="Buscar..." class="font-[Inter] flex-1 px-4 py-2 rounded-lg border-4 border-[#F5BB00] focus:outline-none">
+            <button class="bg-[#8EA604] p-3 rounded-lg border-4 border-[#8EA604]  hover:bg-[#7F9216] hover:border-[#7F9216] transition">
+                <img src="{{ url_for('static', filename='images/search.svg') }}" class="h-4 w-4">
+            </button>
+        </div>
+
+        <!-- Línea separadora -->
+        <div class="w-px h-12 bg-gray-300 mx-4"></div> <!-- ancho 1px, alto 8 (ajustable), margen horizontal -->
+
+        <!-- Botones de navegación -->
+        <div class="flex items-center gap-2">
+            <!-- Botón Home -->
+            <button class="bg-[#F5BB00] p-3 rounded-lg hover:bg-[#EC9F05] transition text-black hover:text-white">
+                <img src="{{ url_for('static', filename='images/home.svg') }}" class="h-6 w-6">
+            </button>
+
+            <!-- Botón Map -->
+            <button class="bg-[#F5BB00] p-3 rounded-lg hover:bg-[#EC9F05] transition text-black hover:text-white">
+                <img src="{{ url_for('static', filename='images/map.svg') }}" class="h-6 w-6">
+            </button>
+
+            <!-- Botón Comment -->
+            <button class="bg-[#F5BB00] p-3 rounded-lg hover:bg-[#EC9F05] transition text-black hover:text-white">
+                <img src="{{ url_for('static', filename='images/comment_full.svg') }}" class="h-6 w-6">
+            </button>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+{% endblock %}
