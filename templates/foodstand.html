@@ -1,1 +1,50 @@
 <!-- plantilla para la página de cada puesto de comida -->
+
+{% extends "layout.html" %}
+
+{% block title %}Puesto de Comida{% endblock %}
+
+{% block body %}
+<div class="w-full">
+
+  <!-- Imagen del puesto full width -->
+  <img src="/static/images/img1.png" class="w-full h-96 object-cover" alt="Imagen del puesto">
+
+  <!-- Información básica -->
+  <div class="w-full bg-[#D76A03] py-6 px-6">
+    <h1 class="text-4xl text-white mb-2">Tacos Don Pepe 🌮</h1>
+    <p class="text-gray-200 mb-0">Ubicado en Av. Siempre Viva #123. Abierto de 6pm a 12am.</p>
+  </div>
+
+  <!-- Estrellas + iconos a la derecha (fuera del bloque de fondo) -->
+  <div class="flex items-center justify-between px-6 py-4">
+    <div class="flex gap-1">⭐⭐⭐⭐⭐</div>
+    <div class="flex gap-3">
+      <button class="bg-transparent p-2 rounded-lg">💬</button>
+      <button class="bg-transparent p-2 rounded-lg">📍</button>
+    </div>
+  </div>
+
+  <!-- Reseña principal -->
+  <div class="p-6">
+    <div class="bg-gray-50 p-4 rounded-lg w-full">
+      <div class="flex items-start gap-4 mb-3">
+        <img src="/static/images/profile_placeholder.png" class="w-12 h-12 rounded-full" alt="Usuario">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="font-bold">Ana</span>
+            <span>⭐⭐⭐⭐⭐</span>
+          </div>
+          <p>¡Los tacos al pastor son una delicia! 🤩🔥</p>
+        </div>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-sm">🌮 Tacos</span>
+        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">🌯 Burritos</span>
+        <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm">🔥 Picante</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
