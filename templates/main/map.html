@@ -1,1 +1,33 @@
 <!-- mapa -->
+{% extends "main/main_base.html" %}
+
+{% block title %}Mapa{% endblock %}
+
+{% block content %} 
+<div class="flex flex-col h-[80vh]">
+  <!-- Mapa ocupa todo menos el botón -->
+  <div id="map" class="flex-1 w-full"></div>
+
+  <!-- Botón debajo -->
+  <div class="p-4 bg-white flex justify-center font-[Inter]">
+    <button class="bg-[#F5BB00] text-white px-6 py-3 rounded-lg shadow font-semibold hover:bg-[#D7AF31] transition w-full">
+      Agregar nuevo lugar
+    </button>
+  </div>
+</div>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+  const map = L.map("map").setView([19.4326, -99.1332], 12);
+
+  L.tileLayer(`https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey={{ api_key }}`, {
+    attribution: '© <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, © <a href="https://www.geoapify.com/">Geoapify</a>',
+    maxZoom: 20,
+  }).addTo(map);
+
+  L.marker([19.4326, -99.1332]).addTo(map).bindPopup("Estás aquí 📍");
+</script>
+{% endblock %}
