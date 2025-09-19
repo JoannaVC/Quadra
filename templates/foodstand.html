@@ -1,14 +1,14 @@
 <!-- plantilla para la página de cada puesto de comida -->
 
-{% extends "layout.html" %}
+{% extends "main/main_base.html" %}
 
 {% block title %}Puesto de Comida{% endblock %}
 
-{% block body %}
+{% block content %}
 <div class="w-full">
 
   <!-- Imagen del puesto full width -->
-  <img src="/static/images/img1.png" class="w-full h-96 object-cover" alt="Imagen del puesto">
+  <img src="/static/images/img5.png" class="w-full h-96 object-cover" alt="Imagen del puesto">
 
   <!-- Información básica -->
   <div class="w-full bg-[#D76A03] py-6 px-6">
@@ -26,10 +26,9 @@
   </div>
 
   <!-- Reseña principal -->
-  <div class="p-6">
-    <div class="bg-gray-50 p-4 rounded-lg w-full">
+  <div class="p-6 font-[Inter]">
+    <div class="bg-gray-50 p-4 rounded-lg border-2 border-gray-200 w-full">
       <div class="flex items-start gap-4 mb-3">
-        <img src="/static/images/profile_placeholder.png" class="w-12 h-12 rounded-full" alt="Usuario">
         <div>
           <div class="flex items-center gap-2 mb-1">
             <span class="font-bold">Ana</span>

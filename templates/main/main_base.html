@@ -23,17 +23,23 @@
         <div class="flex items-center gap-2">
             <!-- Botón Home -->
             <button class="bg-[#F5BB00] p-3 rounded-lg hover:bg-[#EC9F05] transition text-black hover:text-white">
-                <img src="{{ url_for('static', filename='images/home.svg') }}" class="h-6 w-6">
+                <img src="{{ url_for('static', filename='images/home.svg') }}"
+                onclick="window.location.href='/dashboard'"
+                class="h-6 w-6">
             </button>
 
             <!-- Botón Map -->
             <button class="bg-[#F5BB00] p-3 rounded-lg hover:bg-[#EC9F05] transition text-black hover:text-white">
-                <img src="{{ url_for('static', filename='images/map.svg') }}" class="h-6 w-6">
+                <img src="{{ url_for('static', filename='images/map.svg') }}" 
+                onclick="window.location.href='/map'"
+                class="h-6 w-6">
             </button>
 
             <!-- Botón Comment -->
             <button class="bg-[#F5BB00] p-3 rounded-lg hover:bg-[#EC9F05] transition text-black hover:text-white">
-                <img src="{{ url_for('static', filename='images/comment_full.svg') }}" class="h-6 w-6">
+                <img src="{{ url_for('static', filename='images/comment_full.svg') }}" 
+                onclick="window.location.href='/comments'"
+                class="h-6 w-6">
             </button>
         </div>
     </nav>

@@ -1,19 +1,18 @@
-{% extends "layout.html" %}
+{% extends "main/main_base.html" %}
 
 {% block title %}Comentarios{% endblock %}
 
-{% block body %}
-<div class="w-full h-screen bg-[#D76A03] font-[Inter]">
+{% block content %}
+<div class="w-full h-screen font-[Inter]">
 
 
   <!-- Título -->
-  <h1 class="text-3xl font-[Poor_Story] px-6 pt-6 text-white mb-6">Comentarios de Tacos Don Pepe 🌮</h1>
+  <h1 class="text-3xl font-[Poor_Story] px-6 pt-6 text-black font-bold mb-6">Comentarios de Tacos Don Pepe 🌮</h1>
 
   <!-- Lista de comentarios -->
   <div class="space-y-4 px-6">
     <!-- Comentario de ejemplo -->
-    <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg shadow-sm w-full">
-      <img src="/static/images/profile_placeholder.png" class="w-12 h-12 rounded-full" alt="Usuario">
+    <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg shadow-sm border-2 border-gray-200 w-full">
       <div class="flex-1">
         <div class="flex items-center gap-2 mb-1">
           <span class="font-bold">Luis</span>
@@ -27,8 +26,7 @@
       </div>
     </div>
 
-    <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg shadow-sm w-full">
-      <img src="/static/images/profile_placeholder.png" class="w-12 h-12 rounded-full" alt="Usuario">
+    <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg shadow-sm border-2 border-gray-200 w-full">
       <div class="flex-1">
         <div class="flex items-center gap-2 mb-1">
           <span class="font-bold">María</span>
