@@ -50,7 +50,7 @@ def signup():
 def dashboard():
     return render_template('main/dashboard.html')
 
-@app.route('/mapa')
+@app.route('/map')
 def mapa():
     api_key = os.getenv("GEOAPIFY_API_KEY", "8ba67a277ac44467b33467a772a0ca3e")
     return render_template("main/map.html", api_key=api_key)
