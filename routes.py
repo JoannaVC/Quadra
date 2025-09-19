@@ -2,10 +2,8 @@
 
 #EJEMPLO_PRUEBA_DB
 from app import app, db
-from DB.models import Usuario
-from flask import request
-from flask import session, flash
-from flask import render_template, redirect, url_for
+from DB.models import Usuario, Puesto
+from flask import request, session, flash, abort, render_template, redirect, url_for, jsonify
 import os
 
 #PRUEBA RENDER TEMPLATE
@@ -54,6 +52,21 @@ def dashboard():
 def mapa():
     api_key = os.getenv("GEOAPIFY_API_KEY", "8ba67a277ac44467b33467a772a0ca3e")
     return render_template("main/map.html", api_key=api_key)
+
+@app.route('/add_place', methods=['POST'])
+def add_place():
+    if 'user_id' not in session:
+        return jsonify({'error': 'No autorizado'}), 401
+    data = request.get_json()
+    nombre = data.get('nombre')
+    lat = data.get('lat')
+    lng = data.get('lng')
+    ubicacion = f"{lat},{lng}"
+    creador_id = session['user_id']
+    nuevo_puesto = Puesto(nombre=nombre, ubicacion=ubicacion, creador_id=creador_id)
+    db.session.add(nuevo_puesto)
+    db.session.commit()
+    return jsonify({'success': True})
 
 @app.route('/foodstand')
 def foodstand():
