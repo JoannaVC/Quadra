@@ -1,0 +1,31 @@
+App_web/
+├─ codigo/
+    ├─ __init__.py          # inicializa Flask, DB 
+    ├─ routes.py            # se guardan todas las rutas para flask
+    ├─ app.py               # archivo que corre la app
+    ├─ DB
+        └─ config.py        # clase configuracion, conecta a la DB en supabase mediante SQLALCHEMY URI           
+        └─ models.py        # creacion de tablas para la base de datos
+    ├─ static/              # para assets estáticos (JS, imágenes, CSS de APIs si es necesario)
+    │   └─ images/
+            ├─ (todas las imágenes requeridas)
+    ├─ templates/
+    │   ├─ layout.html      # logo
+    │   ├─ landing.html     # landing page
+    │   ├─ auth/            # inicios de sesion
+    │   │   ├─ auth_base.html   # base
+    │   │   ├─ login.html       # inicio de sesión para usuario que ya cuenta con cuenta
+    │   │   └─ signup.html      # registro para nuevo usuario
+    │   ├─ main/
+    │   │   ├─ main_base.html   # base con el panel de navegacion
+    │   │   ├─ dashboard.html   # página principal
+    │   │   └─ map.html         # mapa
+    │   ├─ foodstand.html   # plantilla para la página de cada puesto de comida
+    │   ├─ comments.html    # plantilla para la página de comentarios
+        ├─ editar_puesto.html
+        ├─ editar_comentario.html
+    ├─auth/
+        ├─auth.py       # hashing, JWT
+    ├─apis/
+        ├─mapas.py          # conexion y personalizacion para geoapify
+├─entregables/ #TODOS LOS ENTREGABLES
