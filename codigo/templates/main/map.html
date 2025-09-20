@@ -1,0 +1,107 @@
+<!-- mapa -->
+{% extends "main/main_base.html" %}
+
+{% block title %}Mapa{% endblock %}
+
+{% block content %} 
+<div class="flex flex-col h-[80vh]">
+  <!-- Mapa ocupa todo menos el botón -->
+  <div id="map" class="flex-1 w-full"></div>
+
+  <!-- Formulario oculto para agregar lugar -->
+  <form id="add-place-form" class="hidden flex flex-col gap-2 p-4 bg-white shadow rounded-lg absolute top-10 left-1/2 transform -translate-x-1/2 z-10 max-w-xs w-full font-[Inter]">
+    <label class="text-sm">Nombre del lugar:</label>
+    <input type="text" id="place-name" name="nombre" required class="border px-2 py-1 rounded">
+    <input type="hidden" id="place-lat" name="lat">
+    <input type="hidden" id="place-lng" name="lng">
+    <div class="flex gap-2">
+      <button type="submit" class="bg-[#F5BB00] text-white px-4 py-2 rounded hover:bg-[#D7AF31]">Guardar</button>
+      <button type="button" id="cancel-add" class="bg-gray-300 px-4 py-2 rounded">Cancelar</button>
+    </div>
+  </form>
+
+  <!-- Botón debajo -->
+  <div class="p-4 bg-white flex justify-center font-[Inter]">
+    <button id="add-place-btn" class="bg-[#F5BB00] text-white px-6 py-3 rounded-lg shadow font-semibold hover:bg-[#D7AF31] transition w-full">
+      Agregar nuevo lugar
+    </button>
+  </div>
+</div>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+  const map = L.map("map").setView([19.4326, -99.1332], 12);
+
+  L.tileLayer(`https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey={{ api_key }}`, {
+    attribution: '© <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, © <a href="https://www.geoapify.com/">Geoapify</a>',
+    maxZoom: 20,
+  }).addTo(map);
+
+  // Usa la ruta de Flask para el SVG local
+  const customIcon = L.icon({
+    iconUrl: "{{ url_for('static', filename='images/Map pin (1).svg') }}",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32]
+  });
+
+  L.marker([19.4326, -99.1332], { icon: customIcon }).addTo(map).bindPopup("Estás aquí 📍");
+
+  let tempMarker = null;
+  let addingPlace = false;
+
+  document.getElementById('add-place-btn').onclick = function() {
+    addingPlace = true;
+    alert('Haz clic en el mapa para seleccionar la ubicación del nuevo lugar.');
+  };
+
+  // Cambia todos los marcadores para usar el icono personalizado
+  fetch('/get_places')
+    .then(resp => resp.json())
+    .then(lugares => {
+      lugares.forEach(lugar => {
+        const marker = L.marker([lugar.lat, lugar.lng], { icon: customIcon })
+          .addTo(map)
+          .bindPopup(`<b>${lugar.nombre}</b><br><button onclick="window.location.href='/foodstand/${lugar.id}'" class='text-[#D76A03] underline font-[Inter] mt-2'>Ver puesto</button>`);
+      });
+    });
+
+  // También usa el icono personalizado para el marcador temporal
+  map.on('click', function(e) {
+    if (!addingPlace) return;
+    if (tempMarker) map.removeLayer(tempMarker);
+    tempMarker = L.marker(e.latlng, { icon: customIcon }).addTo(map);
+    document.getElementById('place-lat').value = e.latlng.lat;
+    document.getElementById('place-lng').value = e.latlng.lng;
+    document.getElementById('add-place-form').classList.remove('hidden');
+    addingPlace = false;
+  });
+
+  document.getElementById('cancel-add').onclick = function() {
+    document.getElementById('add-place-form').classList.add('hidden');
+    if (tempMarker) map.removeLayer(tempMarker);
+  };
+
+  document.getElementById('add-place-form').onsubmit = async function(e) {
+    e.preventDefault();
+    const nombre = document.getElementById('place-name').value;
+    const lat = document.getElementById('place-lat').value;
+    const lng = document.getElementById('place-lng').value;
+
+    const resp = await fetch('/add_place', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({nombre, lat, lng})
+    });
+    if (resp.ok) {
+      const data = await resp.json();
+      window.location.href = `/foodstand/${data.id}?first=true`;
+    } else {
+      alert('Error al agregar el lugar');
+    }
+  };
+</script>
+{% endblock %}

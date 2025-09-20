@@ -1,0 +1,111 @@
+<!-- plantilla para la página de cada puesto de comida -->
+
+{% extends "main/main_base.html" %}
+
+{% block title %}{{ puesto.nombre }}{% endblock %}
+
+{% block content %}
+{% if user_is_creator and first and (not puesto.foto or not tiene_reseña) %}
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('completar_puesto', id=puesto.id) }}" class="p-6 bg-white rounded shadow mb-6 font-[Inter]">
+    <label class="block mb-2">Sube una foto:</label>
+    {% if puesto.foto %}
+      <img src="{{ puesto.foto }}" alt="Foto actual" class="mb-2 w-32 h-32 object-cover rounded">
+      <input type="file" name="foto" accept="image/*" class="mb-4">
+      <small class="block mb-4 text-gray-500">Puedes cambiar la foto si lo deseas.</small>
+    {% else %}
+      <input type="file" name="foto" accept="image/*" required class="mb-4">
+    {% endif %}
+    <label class="block mb-2">Calificación:</label>
+    <select name="calificacion" required class="mb-4">
+      <option value="">Selecciona</option>
+      {% for i in range(1,6) %}
+        <option value="{{ i }}">{{ i }} ⭐</option>
+      {% endfor %}
+    </select>
+    <label class="block mb-2">Reseña:</label>
+    <textarea name="comentario" required class="mb-4 w-full"></textarea>
+    <button type="submit" class="bg-[#F5BB00] text-white px-4 py-2 rounded">Guardar</button>
+  </form>
+{% endif %}
+<div class="w-full font-[Inter]">
+
+  <!-- Imagen del puesto full width -->
+  <img src="{{ puesto.foto or '/static/images/img5.png' }}" class="w-full h-96 object-cover" alt="Imagen del puesto">
+
+  <!-- Información básica -->
+  <div class="w-full bg-[#D76A03] py-6 px-6">
+  <h1 class="text-4xl text-white mb-2 font-[Poor_Story]">{{ puesto.nombre.upper() }}</h1>
+    <p class="text-gray-200 mb-0">
+      {{ direccion }}{% if puesto.horario %}. Abierto: {{ puesto.horario }}{% endif %}
+    </p>
+  </div>
+
+  <!-- Estrellas promedio + iconos a la derecha (fuera del bloque de fondo) -->
+  <div class="flex items-center justify-between px-6 py-4">
+    <div class="flex gap-1">
+  {% set promedio = puesto.cal_promedio|default(0) %}
+  {% set estrellas = promedio|round(0, 'floor')|int %}
+  {% for i in range(estrellas) %}⭐{% endfor %}
+  {% if estrellas == 0 %}<span class="text-gray-400">Sin calificación</span>{% endif %}
+    </div>
+    <div class="flex gap-3">
+      <!-- Botón Comentarios -->
+      <button class="bg-transparent p-2 rounded-lg" title="Comentarios"
+        onclick="window.location.href='{{ url_for('comments', id=puesto.id) }}'">
+        <img src="{{ url_for('static', filename='images/comment.svg') }}" class="h-6 w-6">
+      </button>
+      <!-- Botón Ubicación (redirige a mapa con marcador) -->
+      <button class="bg-transparent p-2 rounded-lg" title="Ubicación"
+        onclick="window.location.href='/map?lat={{ puesto.ubicacion.split(',')[0] }}&lng={{ puesto.ubicacion.split(',')[1] }}'">
+        <img src="{{ url_for('static', filename='images/Map pin.svg') }}" class="h-6 w-6">
+      </button>
+      {% if user_is_creator %}
+        <!-- Botón Editar -->
+        <button class="bg-transparent p-2 rounded-lg" title="Editar"
+          onclick="window.location.href='{{ url_for('editar_puesto', id=puesto.id) }}'">
+          <img src="{{ url_for('static', filename='images/edit.svg') }}" class="h-6 w-6">
+        </button>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Reseñas -->
+  <div class="p-6">
+    {% if puesto.reseñas %}
+      {% for resena in puesto.reseñas %}
+        <div class="bg-gray-50 p-4 rounded-lg border-2 border-gray-200 w-full mb-4">
+          <div class="flex items-start gap-4 mb-3">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="font-bold">
+                  {{ resena.usuario.nom_usuario }}
+                  {% if resena.usuario_id == puesto.creador_id %}
+                    <span class="ml-1 text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded">Creador</span>
+                  {% endif %}
+                </span>
+                <span>
+                  {% for i in range(resena.calificacion or 0) %}⭐{% endfor %}
+                </span>
+              </div>
+              <p>{{ resena.comentario }}</p>
+            </div>
+          </div>
+          <!-- Etiquetas si existen -->
+          {% if resena.etiquetas %}
+          <div class="flex gap-2 flex-wrap">
+            {% for tag in resena.etiquetas %}
+              <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-sm">{{ tag.nombre }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="bg-gray-50 p-4 rounded-lg border-2 border-gray-200 w-full">
+        <p class="text-gray-500">¡Sé el primero en dejar una reseña!</p>
+      </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
