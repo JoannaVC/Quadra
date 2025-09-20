@@ -9,8 +9,8 @@
   <div id="map" class="flex-1 w-full"></div>
 
   <!-- Formulario oculto para agregar lugar -->
-  <form id="add-place-form" class="hidden flex flex-col gap-2 p-4 bg-white shadow rounded-lg absolute top-10 left-1/2 transform -translate-x-1/2 z-10 max-w-xs w-full">
-    <label class="font-[Inter] text-sm">Nombre del lugar:</label>
+  <form id="add-place-form" class="hidden flex flex-col gap-2 p-4 bg-white shadow rounded-lg absolute top-10 left-1/2 transform -translate-x-1/2 z-10 max-w-xs w-full font-[Inter]">
+    <label class="text-sm">Nombre del lugar:</label>
     <input type="text" id="place-name" name="nombre" required class="border px-2 py-1 rounded">
     <input type="hidden" id="place-lat" name="lat">
     <input type="hidden" id="place-lng" name="lng">
@@ -40,7 +40,15 @@
     maxZoom: 20,
   }).addTo(map);
 
-  L.marker([19.4326, -99.1332]).addTo(map).bindPopup("Estás aquí 📍");
+  // Usa la ruta de Flask para el SVG local
+  const customIcon = L.icon({
+    iconUrl: "{{ url_for('static', filename='images/Map pin (1).svg') }}",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32]
+  });
+
+  L.marker([19.4326, -99.1332], { icon: customIcon }).addTo(map).bindPopup("Estás aquí 📍");
 
   let tempMarker = null;
   let addingPlace = false;
@@ -50,10 +58,22 @@
     alert('Haz clic en el mapa para seleccionar la ubicación del nuevo lugar.');
   };
 
+  // Cambia todos los marcadores para usar el icono personalizado
+  fetch('/get_places')
+    .then(resp => resp.json())
+    .then(lugares => {
+      lugares.forEach(lugar => {
+        const marker = L.marker([lugar.lat, lugar.lng], { icon: customIcon })
+          .addTo(map)
+          .bindPopup(`<b>${lugar.nombre}</b><br><button onclick="window.location.href='/foodstand/${lugar.id}'" class='text-[#D76A03] underline font-[Inter] mt-2'>Ver puesto</button>`);
+      });
+    });
+
+  // También usa el icono personalizado para el marcador temporal
   map.on('click', function(e) {
     if (!addingPlace) return;
     if (tempMarker) map.removeLayer(tempMarker);
-    tempMarker = L.marker(e.latlng).addTo(map);
+    tempMarker = L.marker(e.latlng, { icon: customIcon }).addTo(map);
     document.getElementById('place-lat').value = e.latlng.lat;
     document.getElementById('place-lng').value = e.latlng.lng;
     document.getElementById('add-place-form').classList.remove('hidden');
@@ -77,8 +97,8 @@
       body: JSON.stringify({nombre, lat, lng})
     });
     if (resp.ok) {
-      alert('Lugar agregado correctamente');
-      location.reload();
+      const data = await resp.json();
+      window.location.href = `/foodstand/${data.id}?first=true`;
     } else {
       alert('Error al agregar el lugar');
     }
